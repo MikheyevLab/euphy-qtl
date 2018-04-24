@@ -16,5 +16,5 @@ euphyDist <- read_tsv("data/freebayes.txt", col_name=F)
 b <- as.dist(euphyDist[,-1])
 b.mds <- cmdscale(b, k=2)
 rownames(b.mds) <- euphyDist$X1
-with(as.data.frame(b.mds) %>%  rownames_to_column(var="id") %>% mutate(family=ifelse(grepl("306",id) & ! grepl("106",id),"306",ifelse(!grepl("306",id) & grepl("106",id), "106", "else"))) %>% left_join(miss, by=c("id" = "INDV")) %>% filter(family != "else") %>% separate(id, into=c('fam','clutch'), extra="drop", remove=FALSE) ,  scatterD3(x = V1, y = V2, size_var = F_MISS, size_range = c(30,30), opacity=1-F_MISS, hover_size = 4, hover_opacity = 1, symbol_var = fam, col_var = as.factor(clutch), tooltip_text = id, legend_width = 0, size=2))
+with(as.data.frame(b.mds) %>%  rownames_to_column(var="id") %>% mutate(family=ifelse(grepl("306",id) & ! grepl("106",id),"306",ifelse(!grepl("306",id) & grepl("106",id), "106", "else"))) %>% left_join(miss, by=c("id" = "INDV")) %>% filter(family != "else") %>% separate(id, into=c('fam','clutch'), extra="drop", remove=FALSE) %>% filter(! clutch %in% c("106", "108", "F2", "VIP")) ,  scatterD3(x = V1, y = V2, size_var = F_MISS, size_range = c(30,30), opacity=1-F_MISS, hover_size = 4, hover_opacity = 1, symbol_var = fam, col_var = clutch, tooltip_text = id))
 ```
